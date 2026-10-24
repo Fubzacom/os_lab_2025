@@ -1,14 +1,17 @@
-count=$#
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    echo "Передайте числа аргументами"
+    exit 1
+fi
+
 sum=0
 
 for num in "$@"; do
     sum=$((sum + num))
 done
 
-if [ "$count" -gt 0 ]; then
-    avg=$((sum / count))
-    echo "Количество: $count"
-    echo "Среднее: $avg"
-else
-    echo "Нет аргументов"
-fi
+printf 'Количество: %s\n' "$#"
+
+awk -v sum="$sum" -v count="$#" \
+    'BEGIN { printf "Среднее: %.6f\n", sum / count }'
